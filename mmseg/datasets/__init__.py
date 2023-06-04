@@ -33,6 +33,9 @@ from .transforms import (CLAHE, AdjustGamma, BioMedical3DPad,
                          RandomRotFlip, Rerange, ResizeShortestEdge,
                          ResizeToMultiple, RGB2Gray, SegRescale)
 from .voc import PascalVOCDataset
+from .rvd_2cls import RVD_2cls
+from .rvd_3cls import RVD_3cls
+from .rvd_9cls import RVD_9cls
 
 # yapf: enable
 __all__ = [
@@ -51,5 +54,5 @@ __all__ = [
     'BioMedicalGaussianNoise', 'BioMedicalGaussianBlur',
     'BioMedicalRandomGamma', 'BioMedical3DPad', 'RandomRotFlip',
     'SynapseDataset', 'REFUGEDataset', 'MapillaryDataset_v1',
-    'MapillaryDataset_v2'
+    'MapillaryDataset_v2', 'RVD_2cls', 'RVD_3cls', 'RVD_9cls',
 ]
