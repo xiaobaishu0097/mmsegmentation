@@ -95,8 +95,16 @@ def main():
         now_dir = osp.join(tmp_dir, 'test', '1st_manual')
         if osp.exists(now_dir):
             for img_name in os.listdir(now_dir):
-                cap = cv2.VideoCapture(osp.join(now_dir, img_name))
-                ret, img = cap.read()
+                # cap = cv2.VideoCapture(osp.join(now_dir, img_name))
+                # ret, img = cap.read()
+
+                with Image.open(osp.join(now_dir, img_name)) as im:
+                    img = np.array([
+                        np.array(frame.convert('RGBA'))
+                        for frame in ImageSequence.Iterator(im)
+                    ])
+                    img = img[0, ...]
+
                 # The annotation img should be divided by 128, because some of
                 # the annotation imgs are not standard. We should set a
                 # threshold to convert the nonstandard annotation imgs. The
