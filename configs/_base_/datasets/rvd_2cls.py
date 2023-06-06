@@ -1,6 +1,6 @@
 # dataset settings
 dataset_type = 'RVD_2cls'
-data_root = 'data/rvd'
+data_root = 'data/rvd_0'
 crop_size = (512, 512)
 train_pipeline = [
     dict(type='LoadImageFromFile'),
