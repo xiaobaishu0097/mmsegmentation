@@ -7,16 +7,18 @@ import zipfile
 
 import cv2
 import mmcv
+import numpy as np
 from mmengine.utils import mkdir_or_exist
+from PIL import Image, ImageSequence
 
 
 def parse_args():
     parser = argparse.ArgumentParser(
         description='Convert DRIVE dataset to mmsegmentation format')
     parser.add_argument(
-        'training_path', help='the training part of DRIVE dataset')
+        'training_path', help='the training part of DRIVE dataset', default='data/DRIVE/training.zip')
     parser.add_argument(
-        'testing_path', help='the testing part of DRIVE dataset')
+        'testing_path', help='the testing part of DRIVE dataset', default='data/DRIVE/test.zip')
     parser.add_argument('--tmp_dir', help='path of the temporary directory')
     parser.add_argument('-o', '--out_dir', help='output path')
     args = parser.parse_args()
@@ -59,8 +61,18 @@ def main():
 
         now_dir = osp.join(tmp_dir, 'training', '1st_manual')
         for img_name in os.listdir(now_dir):
-            cap = cv2.VideoCapture(osp.join(now_dir, img_name))
-            ret, img = cap.read()
+            # read GIF file and save the first frame
+
+
+            # cap = cv2.VideoCapture(osp.join(now_dir, img_name))
+            # ret, img = cap.read()
+            with Image.open(osp.join(now_dir, img_name)) as im:
+                img = np.array([
+                    np.array(frame.convert('RGBA'))
+                    for frame in ImageSequence.Iterator(im)
+                ])
+                img = img[0, ...]
+
             mmcv.imwrite(
                 img[:, :, 0] // 128,
                 osp.join(out_dir, 'annotations', 'training',
@@ -98,8 +110,16 @@ def main():
         now_dir = osp.join(tmp_dir, 'test', '2nd_manual')
         if osp.exists(now_dir):
             for img_name in os.listdir(now_dir):
-                cap = cv2.VideoCapture(osp.join(now_dir, img_name))
-                ret, img = cap.read()
+                # cap = cv2.VideoCapture(osp.join(now_dir, img_name))
+                # ret, img = cap.read()
+
+                with Image.open(osp.join(now_dir, img_name)) as im:
+                    img = np.array([
+                        np.array(frame.convert('RGBA'))
+                        for frame in ImageSequence.Iterator(im)
+                    ])
+                    img = img[0, ...]
+
                 mmcv.imwrite(
                     img[:, :, 0] // 128,
                     osp.join(out_dir, 'annotations', 'validation',
