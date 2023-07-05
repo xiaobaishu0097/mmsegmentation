@@ -6,4 +6,6 @@ model = dict(
         init_cfg=dict(type='Pretrained',
                       checkpoint='torchvision://resnet101')))
 
-train_dataloader = dict(batch_size=4)
+train_dataloader = dict(
+    batch_size=10,
+    num_workers=8,)
