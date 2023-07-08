@@ -39,3 +39,7 @@ custom_keys.update(
 )
 # optimizer
 optim_wrapper = dict(paramwise_cfg=dict(custom_keys=custom_keys, norm_decay_mult=0.0))
+
+train_dataloader = dict(
+    batch_size=6,
+)
